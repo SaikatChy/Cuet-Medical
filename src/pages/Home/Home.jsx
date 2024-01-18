@@ -56,7 +56,7 @@ const Home = () => {
                     <div className='flex flex-col items-center text-center card-body h-full'>
                         <FaHeartPulse className='text-7xl align-middle text-success' />
                         <p className='font-bold text-xl text-gray-600 py-3'>Electrocardiogram (ECG/EKG)</p>
-                        <p className='text-justify'>This test records the electrical activity of the heart over a period of time. It helps diagnose irregular heart rhythms and heart attacks.</p>
+                        <p className='text-justify'>That test records the electrical activity of the heart over a period of time. It helps diagnose irregular heart rhythms and heart attacks.</p>
                     </div>
                 </div>
 
