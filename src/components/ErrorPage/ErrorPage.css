@@ -1,0 +1,18 @@
+.error-page {
+    font-size: large;
+    margin-top: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    /* background-color: blue; */
+  }
+  
+  .error-msg {
+    background-color: #ff4747;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #f0f8ff;
+    /* display: none; */
+  }
