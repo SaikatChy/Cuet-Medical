@@ -9,7 +9,7 @@ const PatientProfile = () => {
                     <div className='text-center'>
                         <div className="avatar">
                             <div className="w-24 rounded-full ring-4 ring-success ring-offset ring-offset-2">
-                                <img src="https://placekitten.com/g/200/202" />
+                                <img src="/public/images/cuet-1.jpg" />
                             </div>
                         </div>
                         <div className=''>

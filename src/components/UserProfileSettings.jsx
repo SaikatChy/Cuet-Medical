@@ -12,7 +12,7 @@ const UserProfileSettings = () => {
                 <div className="change-avatar">
                     <div className="profile-img">
                         <img
-                            src="https://placekitten.com/g/200/205"
+                            src="/public/images/cuet-1.jpg"
                             height="110"
                             alt="User Image"
                             className="h-1/2 w-1/2"

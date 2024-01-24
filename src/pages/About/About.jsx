@@ -2,8 +2,14 @@ import React from 'react';
 import './About.scss'
 const About = () => {
     const doctorName = "X";
+    const pageStyle = {
+        backgroundColor: '#d4e5f4',
+        padding: '20px',
+      };
     return (
-        <div className='mt-36'>
+        <div style={pageStyle}>
+        <div className='mt-36 '>
+            
             <div className='container2 mt-28 flex mx-auto justify-center '>
                 <div className='left w-1/2'>
                     <h1 className='text-gray-600 font-bold py-0'>Dr. {doctorName}<br /></h1>
@@ -114,6 +120,7 @@ const About = () => {
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     );

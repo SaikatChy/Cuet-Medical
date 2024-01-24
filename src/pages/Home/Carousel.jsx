@@ -3,9 +3,9 @@ import './Carousel.css'; // Import your CSS file for styling
 import { Link } from 'react-router-dom';
 
 const images = [
-  "/public/images/Banner-1.jpg",
-  "/public/images/Banner-2.jpg",
-  "/public/images/Banner-3.jpg",
+  "/public/images/cuet-1.jpg",
+  "/public/images/cuet-2.webp",
+  "/public/images/cuet-3.jpg",
   // Add more image URLs as needed
 ];
 
@@ -34,14 +34,14 @@ const Carousel = () => {
                 }`}
             />
           </div>
-        ))}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="font-bold py-3 text-white">Hello, I am Dr. X</h1>
-          <p className='py-3 text-white'>
-            Book an appointment with our esteemed cardiologist today. <br /> Explore Dr. X's renowned Cardiology Practice.
-          </p>
-          <Link to="/appointment" className='btn bg-success glass text-white font-bold focus:outline-none'>Get an Appointment</Link>
+        ))}  //items-center justify-center
+      <div className="absolute inset-0 flex items-center justify-center ">
+        <div className="align-center">
+          <h1 className="font-bold font-serif  align-text-bottom py-3  text-white">CUET <br/> MEDICAL <br /> MANAGEMENT <br /> SYSTEM</h1>
+          <h3 className='py-3 text-white text-bold'>
+          Empowering Health, Connecting Lives 
+          </h3>
+          <Link to="/Schedule" className='btn bg-success glass text-white font-bold focus:outline-none'>Create Your Own Booklet</Link>
         </div>
       </div>
     </div>

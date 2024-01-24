@@ -1,21 +1,34 @@
-// CustomField.js
+// CustomField.jsx
+
 import React from 'react';
-import { ErrorMessage, Field as FormikField } from 'formik';
 
-const CustomField = ({ name,labelText,...rest }) => {
-  // Generate an ID based on the field name
-
-
+const CustomField = ({ type, name, labelText, className, placeholder, options, ...props }) => {
   return (
     <div className="form-control">
-         <label className="label">
-            <span className="label-text">{labelText}</span>
-        </label>
-        <FormikField id={name} name={name} {...rest} />
-        <ErrorMessage name={name} component="div" className="my-1 text-[700] text-xs text-[red]" />
+      <label className="label">
+        <span className="label-text">
+          <b>{labelText}</b>
+        </span>
+      </label>
 
+      {type === 'select' ? (
+        <select name={name} {...props} className={`bg-white select select-bordered w-full ${className}`}>
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <input
+          type={type}
+          name={name}
+          placeholder={placeholder}
+          className={`bg-white w-full input input-bordered ${className}`}
+          {...props}
+        />
+      )}
     </div>
-   
   );
 };
 

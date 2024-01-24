@@ -1,61 +1,263 @@
 import React, { useState } from 'react';
-import CustomForm from '../../components/Formik/CustomForm';
-import CustomField from '../../components/Formik/CustomField';
-import { RxCrossCircled } from 'react-icons/rx';
-const daysOfWeek = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday"
-];
-const Schedule = () => {
-    const [weekDay, setWeekDay] = useState(0);
-    const [slots, setSlots] = useState([{ startTime: "08:00AM", endTime: "10:00AM" },
-    { startTime: "01:00PM", endTime: "03:00PM" },
-    { startTime: "06:00PM", endTime: "09:00PM" }]); // this slots should be dynamic; will be changed later
-    return (
-        <div className='mt-[8%]'>
-            <div className='card card-body w-4/6 mx-auto my-auto'>
-                <h2 className='text-center font-bold text-4xl py-2'>Doctor's Schedule</h2>
-                <div className='border-spacing-4 p-5 border-2 rounded-md'>
-                    <div className='flex flex-wrap gap-7 p-5 border-b-2 w-full justify-center'>
-                        <button className={weekDay === 0 ? "btn btn-sm bg-success text-white border-2 focus:outline-none border-success hover:border-success hover:bg-success" : "btn btn-sm bg-transparent focus:outline-none  text-slate-400 border-slate-400 border-2 hover:border-success hover:text-success focus:border-slate-400 hover:bg-transparent"} onClick={() => setWeekDay(0)}>Sunday</button>
-                        <button className={weekDay === 1 ? "btn btn-sm bg-success text-white border-2 focus:outline-none border-success hover:border-success hover:bg-success" : "btn btn-sm bg-transparent  focus:outline-none text-slate-400 border-slate-400 border-2 hover:border-success hover:text-success focus:border-slate-400 hover:bg-transparent"} onClick={() => setWeekDay(1)}>Monday</button>
-                        <button className={weekDay === 2 ? "btn btn-sm bg-success text-white border-2 focus:outline-none border-success hover:border-success hover:bg-success" : "btn btn-sm bg-transparent  focus:outline-none text-slate-400 border-slate-400 border-2 hover:border-success hover:text-success focus:border-slate-400 hover:bg-transparent"} onClick={() => setWeekDay(2)}>Tuesday</button>
-                        <button className={weekDay === 3 ? "btn btn-sm bg-success text-white border-2 focus:outline-none border-success hover:border-success hover:bg-success" : "btn btn-sm bg-transparent  focus:outline-none text-slate-400 border-slate-400 border-2 hover:border-success hover:text-success focus:border-slate-400 hover:bg-transparent"} onClick={() => setWeekDay(3)}>Wednesday</button>
-                        <button className={weekDay === 4 ? "btn btn-sm bg-success text-white border-2 focus:outline-none border-success hover:border-success hover:bg-success" : "btn btn-sm bg-transparent  focus:outline-none text-slate-400 border-slate-400 border-2 hover:border-success hover:text-success focus:border-slate-400 hover:bg-transparent"} onClick={() => setWeekDay(4)}>Thursday</button>
-                        <button className={weekDay === 5 ? "btn btn-sm bg-success text-white border-2 focus:outline-none border-success hover:border-success hover:bg-success" : "btn btn-sm bg-transparent  focus:outline-none text-slate-400 border-slate-400 border-2 hover:border-success hover:text-success focus:border-slate-400 hover:bg-transparent"} onClick={() => setWeekDay(5)}>Friday</button>
-                        <button className={weekDay === 6 ? "btn btn-sm bg-success text-white border-2 focus:outline-none border-success hover:border-success hover:bg-success" : "btn btn-sm bg-transparent  focus:outline-none text-slate-400 border-slate-400 border-2 hover:border-success hover:text-success focus:border-slate-400 hover:bg-transparent"} onClick={() => setWeekDay(6)}>Saturday</button>
-                    </div>
-                    <div>
-                        <div className='flex justify-between'>
-                            <h2 className="font-semibold text-xl my-5">Available Time Slots</h2>
+import { useFormik } from 'formik';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { rootUrl } from '../../utils/rootUrl';
 
-                        </div>
+const BookletPage = () => {
+  const navigate = useNavigate();
+  const [success, setSuccess] = useState(null);
+  const [message, setMessage] = useState('');
+  const pageStyle = {
+    backgroundColor: '#d4e5f4',
+    padding: '20px',
+  };
 
+  const formik = useFormik({
+    initialValues: {
+      studentID: '',
+      name: '',
+      email: '',
+      mobilenumber: '',
+      department: '',
+      batch: '',
+      level: '',
+      term: '',
+      bloodgroup: '',
+      resident: '',
+      
+    },
+    onSubmit: async (values) => {
+      // Handle form submission logic here
+      console.log(values);
 
-                        {/* {loading && <span className="loading loading-bars loading-xl"></span>} */}
+      // Example API call to save booklet data
+      try {
+        const response = await axios.post(rootUrl + 'booklet', values);
+        console.log(response.data);
+        if (response.data.status) {
+          setSuccess(true);
+          setMessage(response.data.message);
+          // You can navigate to another page after successful submission
+          // navigate('/success');
+        }
+      } catch (error) {
+        console.error(error.response.data);
+        const { message } = error.response.data;
+        setSuccess(false);
+        setMessage(message);
+      }
+    },
+  });
 
-                        <div className='flex gap-4 flex-wrap'>
-                            {
-                                slots.map((slot, idx) => {
-                                    return (
-                                        <div key={idx} className='rounded-md text-center font-semibold text-sm text-white flex align-middle items-center gap-2 bg-success p-2 w-auto'>
-                                            <p className='flex'>{slot.startTime}<span className='px-1'>-</span>{slot.endTime}</p>
-                                            {/* <p onClick={() => { handleDeleteSlot(idx) }} className='cursor-pointer text-green-200 text-lg hover:text-white'><RxCrossCircled></RxCrossCircled></p> */}
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
-                    </div>
+  return (
+    <div style={pageStyle}>
+    <div className="m-7 mt-20">
+      <div className="hero">
+        <div className="hero-content flex-col">
+          <div className="text-center lg:text-left">
+            <h1 className="text-4xl font-bold">Booklet Generation</h1>
+          </div>
+
+          <div className="card mx-96 flex-shrink-0 w-full max-w-[650px] shadow-2xl bg-white card-body">
+            <form className="w-[100%]" onSubmit={formik.handleSubmit}>
+              <div className="form-control ">
+                <label className="label">
+                  <span className="label-text"><b>Student ID</b></span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter Student ID"
+                  name="studentID"
+                  id="studentID"
+                  onChange={formik.handleChange}
+                  value={formik.values.studentID}
+                  className="bg-slate-300 input input-bordered w-full"
+                  required
+                />
+              </div>
+              <div className="form-control ">
+                <label className="label">
+                  <span className="label-text"><b>Name</b></span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter Name"
+                  name="name"
+                  id="name"
+                  onChange={formik.handleChange}
+                  value={formik.values.name}
+                  className="bg-slate-300 input input-bordered w-full"
+                  required
+                />
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text"><b>Email</b></span>
+                </label>
+                <input
+                  type="email"
+                  placeholder="Enter Email"
+                  name="email"
+                  id="email"
+                  onChange={formik.handleChange}
+                  value={formik.values.email}
+                  className="bg-slate-300 input input-bordered w-full"
+                  required
+                />
+              </div>
+            
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text"><b>Mobile Number</b></span>
+                </label>
+                <input
+                  type="mobile"
+                  placeholder="Enter Mobile Number"
+                  name="mobile"
+                  id="mobile"
+                  onChange={formik.handleChange}
+                  value={formik.values.mobilenumber}
+                  className="bg-slate-300 input input-bordered w-full"
+                  required
+                />
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text"><b>Department</b></span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter Department"
+                  name="department"
+                  id="department"
+                  onChange={formik.handleChange}
+                  value={formik.values.department}
+                  className="bg-slate-300 input input-bordered w-full"
+                  required
+                />
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text"><b>Batch</b></span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter Batch"
+                  name="batch"
+                  id="batch"
+                  onChange={formik.handleChange}
+                  value={formik.values.batch}
+                  className="bg-slate-300 input input-bordered w-full"
+                  required
+                />
+              </div>
+              <div className="form-control ">
+                <label className="label">
+                  <span className="label-text"><b>Level</b></span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter Level"
+                  name="level"
+                  id="level"
+                  onChange={formik.handleChange}
+                  value={formik.values.level}
+                  className="bg-slate-300 input input-bordered w-full"
+                  required
+                />
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text"><b>Term</b></span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter Term"
+                  name="term"
+                  id="term"
+                  onChange={formik.handleChange}
+                  value={formik.values.term}
+                  className="bg-slate-300 input input-bordered w-full"
+                  required
+                />
+              </div>
+
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text"><b>Blood Group</b></span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter Blood Group"
+                  name="blood"
+                  id="blood"
+                  onChange={formik.handleChange}
+                  value={formik.values.bloodgroup}
+                  className="bg-slate-300 input input-bordered w-full"
+                  required
+                />
+              </div>
+
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text"><b>Resident</b></span>
+                </label>
+                <div className="flex items-center space-x-2 px-5">
+                  <label className="cursor-pointer">
+                    <input
+                      type="checkbox"
+                      name="residentYes"
+                      onChange={() => {
+                        formik.handleChange();
+                        formik.setFieldValue('residentNo', false);
+                      }}
+                      checked={formik.values.residentYes}
+                      className="form-checkbox h-5 w-5 text-indigo-600"
+                    />
+                    <span className="ml-2">Yes</span>
+                  </label>
+                  <label className="cursor-pointer">
+                    <input
+                      type="checkbox"
+                      name="residentNo"
+                      onChange={() => {
+                        formik.handleChange();
+                        formik.setFieldValue('residentYes', false);
+                      }}
+                      checked={formik.values.residentNo}
+                      className="form-checkbox h-5 w-5 text-indigo-600"
+                    />
+                    <span className="ml-2">No</span>
+                  </label>
                 </div>
-            </div>
+              </div>
+
+
+              <div className="form-control mt-6">
+                <input
+                  type="submit"
+                  className="btn glass bg-success text-white w-full"
+                  value={'Generate Booklet'}
+                />
+                {success !== null && (
+                  <p
+                    className={`my-1 text-center text-md text-[700] ${
+                      success ? 'text-[green]' : 'text-[red]'
+                    }`}
+                  >
+                    {message}
+                  </p>
+                )}
+                
+              </div>
+            </form>
+          </div>
         </div>
-    );
+      </div>
+      </div>
+    </div>
+  );
 };
 
-export default Schedule;
+export default BookletPage;
