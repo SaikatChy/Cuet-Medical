@@ -60,7 +60,7 @@ const Appointments = () => {
   return (
     <div style={pageStyle}>
       <div className='m-12 py-3 bg-[#d4e5f4]'>
-        <h1 className='text-center my-[24px]'>Prescription Management</h1>
+        <h1 className='text-center my-[24px]'>Prescription Managements</h1>
         <div className='flex flex-wrap'>
           <div className='w-[25%]'>
             <h2 className='text-xl font-semibold mb-4'>Student Id</h2>
@@ -80,7 +80,7 @@ const Appointments = () => {
 
           {showPrescriptionForm && (
             <div className='w-[70%] px-5'>
-              <h2 className='text-xl font-semibold mb-4'>Prescription Details</h2>
+              <h2 className='text-xl font-semibold mb-4'>Prescriptions Details</h2>
               <div className='form-control mb-4'>
                 <label className='label'>
                   <span className='label-text'><b>Date</b></span>
