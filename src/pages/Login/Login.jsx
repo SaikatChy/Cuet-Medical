@@ -8,10 +8,12 @@ import { rootUrl } from '../../utils/rootUrl';
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../../Contexts/UserContext';
 import axios from 'axios';
+import { postData } from '../../Axios/postData';
 
 const Login = () => {
   const { user, setUser } = useContext(UserContext);
   const [status, setStatus] = useState(null);
+  const [role,setRole]=useState("student")
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
   const pageStyle = {
@@ -20,34 +22,30 @@ const Login = () => {
   };
 
   const initialValues = {
-    role: '', // Added "Role" field
-    phoneNo: '',
+
+    id: '',
     password: '',
   };
 
-  const roleOptions = [
+  const options = [
     { value: 'student', label: 'Student' },
     { value: 'doctor', label: 'Doctor' },
     { value: 'admin', label: 'Admin' },
   ];
 
   const handleSubmit = async (values) => {
-    await axios
-      .post(rootUrl + 'user/login', values, { withCredentials: true })
-      .then(({ data }) => {
-        if (data.status) {
-          const { token, ...others } = data.data;
-          setUser(others);
-          localStorage.setItem('token', token);
-          setStatus(true);
-          navigate('../');
-        }
-      })
-      .catch((err) => {
-        const { message } = err.response.data;
-        setStatus(false);
-        setMessage(message);
-      });
+     const postLogin=async(role="student")=>{
+         const result=await postData(`/auth/${role}/login`,values);
+         if(result.success){
+          setUser(result.data)
+          navigate('/')
+         }
+         else {
+          setStatus(false)
+            setMessage(result.message)
+         }
+     }
+     postLogin(role)
   };
 
   return (
@@ -56,31 +54,32 @@ const Login = () => {
         <div className="hero">
           <div className="hero-content flex-col">
             <div className="text-center lg:text-left">
-              <h1 className="text-4xl font-bold">Login Now!</h1>
+              <h1 className="text-4xl font-bold">Login Now as a {role}</h1>
             </div>
 
             <div className="card my-3 mx-9 flex-shrink-0 w-full max-w-sm shadow-2xl bg-white card-body">
+            <select id="role" name="role" className={`bg-white select select-bordered w-full`} onChange={(e)=>setRole(e.target.value)}>
+               {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
               <CustomForm
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
-                validationSchema={loginSchema}
               >
-                <CustomField
-                  type="select"
-                  name="role"
-                  labelText="Role"
-                  className="select select-bordered w-full bg-white"
-                  options={roleOptions}
-                />
+                 
                 <CustomField
                   type="Id"
-                  name="Id"
+                  name="id"
                   labelText="Id"
                   className="bg-white w-full input input-bordered"
                   placeholder="Enter Id"
                 />
                 <CustomField
                   type="password"
+                  id="password"
                   name="password"
                   labelText="Password"
                   className="bg-white w-full input input-bordered"

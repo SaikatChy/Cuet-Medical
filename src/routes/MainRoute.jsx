@@ -121,7 +121,7 @@ const mainRouter = [
                 element: <UserProfile></UserProfile>
             },
             {
-                path: "/patient-profile",
+                path: "/patient-profile/:serialNo",
                 element: <PatientProfile></PatientProfile>
             },
             {

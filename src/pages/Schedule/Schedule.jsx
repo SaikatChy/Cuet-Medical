@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { rootUrl } from '../../utils/rootUrl';
+import { postData } from '../../Axios/postData';
 
 const BookletPage = () => {
   const navigate = useNavigate();
@@ -15,38 +16,44 @@ const BookletPage = () => {
 
   const formik = useFormik({
     initialValues: {
-      studentID: '',
+      studentId: '',
       name: '',
       email: '',
-      mobilenumber: '',
       department: '',
       batch: '',
-      level: '',
-      term: '',
-      bloodgroup: '',
-      resident: '',
+      mobileNo: '',
+      Level: '',
+      Term: '',
+      session: '',
+      hallName: '',
+      bloodGroup: '',
+      resident: true,
       
     },
     onSubmit: async (values) => {
-      // Handle form submission logic here
-      console.log(values);
-
-      // Example API call to save booklet data
-      try {
-        const response = await axios.post(rootUrl + 'booklet', values);
-        console.log(response.data);
-        if (response.data.status) {
+     
+      // console.log(values);
+      // alert(JSON.stringify(values));
+ 
+       
+        const response = await postData(rootUrl+ 'booklet', values)
+        //console.log(response.data);
+        //  alert(JSON.stringify(response));
+        if (response.data) {
           setSuccess(true);
           setMessage(response.data.message);
           // You can navigate to another page after successful submission
-          // navigate('/success');
+           navigate('/patient-profile/'+response.data.serialNo);
         }
-      } catch (error) {
-        console.error(error.response.data);
+      else {
+       
         const { message } = error.response.data;
         setSuccess(false);
         setMessage(message);
       }
+        
+        
+      
     },
   });
 
@@ -68,15 +75,16 @@ const BookletPage = () => {
                 <input
                   type="text"
                   placeholder="Enter Student ID"
-                  name="studentID"
-                  id="studentID"
+                  name="studentId"
+                  id="studentId"
                   onChange={formik.handleChange}
-                  value={formik.values.studentID}
+                  value={formik.values.studentId}
                   className="bg-slate-300 input input-bordered w-full"
                   required
                 />
               </div>
-              <div className="form-control ">
+
+              <div className="form-control">
                 <label className="label">
                   <span className="label-text"><b>Name</b></span>
                 </label>
@@ -91,6 +99,7 @@ const BookletPage = () => {
                   required
                 />
               </div>
+             
               <div className="form-control">
                 <label className="label">
                   <span className="label-text"><b>Email</b></span>
@@ -106,22 +115,22 @@ const BookletPage = () => {
                   required
                 />
               </div>
-            
               <div className="form-control">
                 <label className="label">
                   <span className="label-text"><b>Mobile Number</b></span>
                 </label>
                 <input
-                  type="mobile"
+                  type="text"
                   placeholder="Enter Mobile Number"
-                  name="mobile"
-                  id="mobile"
+                  name="mobileNo"
+                  id="mobileNo"
                   onChange={formik.handleChange}
-                  value={formik.values.mobilenumber}
+                  value={formik.values.mobileNo}
                   className="bg-slate-300 input input-bordered w-full"
                   required
                 />
               </div>
+              
               <div className="form-control">
                 <label className="label">
                   <span className="label-text"><b>Department</b></span>
@@ -159,10 +168,10 @@ const BookletPage = () => {
                 <input
                   type="text"
                   placeholder="Enter Level"
-                  name="level"
-                  id="level"
+                  name="Level"
+                  id="Level"
                   onChange={formik.handleChange}
-                  value={formik.values.level}
+                  value={formik.values.Level}
                   className="bg-slate-300 input input-bordered w-full"
                   required
                 />
@@ -174,14 +183,47 @@ const BookletPage = () => {
                 <input
                   type="text"
                   placeholder="Enter Term"
-                  name="term"
-                  id="term"
+                  name="Term"
+                  id="Term"
                   onChange={formik.handleChange}
-                  value={formik.values.term}
+                  value={formik.values.Term}
                   className="bg-slate-300 input input-bordered w-full"
                   required
                 />
               </div>
+
+              <div className="form-control ">
+                <label className="label">
+                  <span className="label-text"><b>Session</b></span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter Session"
+                  name="session"
+                  id="session"
+                  onChange={formik.handleChange}
+                  value={formik.values.session}
+                  className="bg-slate-300 input input-bordered w-full"
+                  required
+                />
+              </div> 
+
+              <div className="form-control ">
+                <label className="label">
+                  <span className="label-text"><b>Hall Name</b></span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter Hall Name"
+                  name="hallName"
+                  id="hallName"
+                  onChange={formik.handleChange}
+                  value={formik.values.hallName}
+                  className="bg-slate-300 input input-bordered w-full"
+                  required
+                />
+              </div> 
+
 
               <div className="form-control">
                 <label className="label">
@@ -190,16 +232,16 @@ const BookletPage = () => {
                 <input
                   type="text"
                   placeholder="Enter Blood Group"
-                  name="blood"
-                  id="blood"
+                  name="bloodGroup"
+                  id="bloodGroup"
                   onChange={formik.handleChange}
-                  value={formik.values.bloodgroup}
+                  value={formik.values.bloodGroup}
                   className="bg-slate-300 input input-bordered w-full"
                   required
                 />
               </div>
 
-              <div className="form-control">
+              {/* <div className="form-control">
                 <label className="label">
                   <span className="label-text"><b>Resident</b></span>
                 </label>
@@ -231,7 +273,7 @@ const BookletPage = () => {
                     <span className="ml-2">No</span>
                   </label>
                 </div>
-              </div>
+              </div> */}
 
 
               <div className="form-control mt-6">
