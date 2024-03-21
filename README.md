@@ -1,8 +1,6 @@
-# React + Vite
+**CUET Medical Management System**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+CUET Medical Management System is a web app that automates the core functions of CUET Medical Centre. It can be used by anyone in CUET campus who needs to access the medical centre. It will have three main modules: User Authentication, Booklet Management and Prescription Management. The group members are:
+1. Anirban Barua (ID: 1804001)
+2. Saikat Chowdhury (ID: 1804013)
+3. Binoy Das Gupta (ID: 1804032)
